@@ -1,0 +1,73 @@
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f4;
+  min-height: 100vh;
+}
+
+.admin-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-title {
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.admin-content {
+  display: flex;
+  gap: 20px;
+}
+
+.admin-sidebar {
+  width: 250px;
+  background-color: #007bff;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  position: sticky;
+  top: 20px; 
+  height: calc(100vh - 40px); 
+  overflow-y: auto;
+}
+
+.admin-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-sidebar ul li {
+  margin-bottom: 15px;
+}
+
+.admin-sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.admin-sidebar ul li a:hover {
+  background-color: #0056b3;
+}
+
+.admin-main {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}

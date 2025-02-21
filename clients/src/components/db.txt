@@ -1,0 +1,116 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+
+function UpdateProduct() {
+  const { id } = useParams();
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/edit/" + id)
+      .then((res) => {
+        setName(res.data[0].name);
+        setDesc(res.data[0].desc);
+      })
+      .catch((err) => console.log(err.ma));
+  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .put("http://localhost:5000/api/update" + id, {
+        name,
+        desc,
+      })
+      .then((res) => {
+        if (res.data.updated) {
+          navigator("/");
+        } else {
+          alert("Not updated");
+        }
+      });
+  };
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        name="name"
+        placeholder="Product name"
+        required
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+      />
+      <textarea
+        name="description"
+        placeholder="Product description"
+        value={desc}
+        required
+        onChange={(e) => setDesc(e.target.value)}
+      />
+      <button type="submit">Update</button>
+    </form>
+  );
+}
+
+export default UpdateProduct;
+   
+
+
+database < code >
+    
+    router.get("/edit/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "SELECT * from product where id =?";
+  dbConn.query(sql, [id], (err, result) => {
+    if (err) return res.status(500).json("Error");
+    return res.json(result);
+  });
+});
+
+router.put("/update/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = "UPDATE product SET name=? desc=? where id=?";
+  dbConn.query(sql, [req.body.name, req.body.desc, id], (err, result) => {
+    if (err) {
+      return res.status(500).json("Error");
+      return res.status(200).json({ updated: true });
+    }
+  });
+});</>
+// router.put("/update/:id", (req, res) => {
+//   const id = req.params.id;
+//   const updateProduct = `
+//     UPDATE products
+//     SET name = ?, image_file = ?, description = ? , price = ?
+//     WHERE id = ?`;
+//   databaseConnaction.query(
+//     updateProduct,
+//     req.body.name,
+//     req.file,
+//     req.body.description,
+//     req.body.price,
+//     [id],
+//     (err, result) => {
+//       if (err) res.status(500).json("Error");
+//       return res.status(200).json({ Updated: true });
+//     }
+//   );
+// });
+
+
+router.get("/product/:id", (req, res) => {
+  const id = req.params;
+  const sql = "SELECT * FROM products WHERE id = ?";
+
+  databaseConnaction.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    return res.status(200).json(result[0]); // Returning a single product object
+  });
+});
